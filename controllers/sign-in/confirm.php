@@ -34,10 +34,8 @@ if (empty($errors)) {
         if(! password_verify($params['password'], $account['password'])) {
             $errors['existance'] = "Incorrect Password";
         } else {
-            $_SESSION['user'] = $account['name'];
-
-            header('location: /');
-            exit();
+            login($account['name']);
+            
         }
     }
     

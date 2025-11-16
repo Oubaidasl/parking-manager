@@ -32,4 +32,4 @@ if ( $note['owner_id'] != Consts::OWNER_ID) {
 
 
 
-base_path("views/notes/edit.view.php", ['note' => $note, 'title' => "Note " . $id,'id' => $id, 'errors' => $error]);
+base_path("views/notes/edit.view.php", ['note' => $note, 'title' => "Note " . $id, 'id' => $id, 'errors' => $error]);
