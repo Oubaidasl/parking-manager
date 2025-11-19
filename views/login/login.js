@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
 
         try {
-            const res = await fetch('/login-create', {
+            const res = await fetch('/session-create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

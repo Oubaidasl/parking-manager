@@ -22,6 +22,7 @@ $password = isset($data['password']) ? trim($data['password']) : '';
 foreach ($creds as $user => $pass) {
     if ($username === $user) {
         if ($password === $pass) {
+            session_regenerate_id(true);
             $_SESSION['user'] = $user;
             respond(200, true);
         }
