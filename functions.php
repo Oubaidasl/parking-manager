@@ -11,5 +11,5 @@ function dd($var) {
 
 function abort ($statusCode = 404) {
     http_response_code($statusCode);
-    base_path("views/{$statusCode}.php");
+    require base_path("views/{$statusCode}.html");
 } 
