@@ -13,3 +13,4 @@ function abort ($statusCode = 404) {
     http_response_code($statusCode);
     require base_path("views/{$statusCode}.html");
 } 
+

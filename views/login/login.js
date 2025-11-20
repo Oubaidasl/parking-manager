@@ -4,12 +4,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const username = document.getElementById('username');
     const password = document.getElementById('password');
-    const submitButton = document.getElementById('submit-btn');
+    const submitBtn = document.getElementById('submit-btn');
     const usernameError = document.getElementById('username-error');
     const passwordError = document.getElementById('password-error');
 
-    const labelDefault = submitButton?.querySelector('[data-id="btn-label-default"]');
-    const labelBusy = submitButton?.querySelector('[data-id="btn-label-busy"]');
+    const labelDefault = submitBtn?.querySelector('[data-id="btn-label-default"]');
+    const labelBusy = submitBtn?.querySelector('[data-id="btn-label-busy"]');
 
     const setError = (el, msg) => { if (el) el.textContent = msg || ''; };
     const setInvalid = (input, invalid) => { 
@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     };
 
     const setSubmitting = (submitting) => {
-        submitButton.disabled = submitting;
-        submitButton.setAttribute('aria-busy', submitting ? 'true' : 'false');
+        submitBtn.disabled = submitting;
+        submitBtn.setAttribute('aria-busy', submitting ? 'true' : 'false');
         if (labelDefault && labelBusy) {
         if (submitting) { labelDefault.classList.add('hidden'); labelBusy.classList.remove('hidden'); }
         else { labelBusy.classList.add('hidden'); labelDefault.classList.remove('hidden'); }
@@ -86,7 +86,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                credentials: 'same-origin',
                 body: JSON.stringify(payload)
             });
 
