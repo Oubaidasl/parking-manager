@@ -20,6 +20,8 @@ $router->get('/client-read.js', 'views/client/read.js')->only('Auth');
 $router->get('/client-read', 'controllers/client/read.php')->only('Auth');
 $router->get('/client-create.js', 'views/client/create.js')->only('Auth');
 $router->post('/client-create', 'controllers/client/create.php')->only('Auth');
-
+$router->get('/client-renew.js', 'views/client/renew.js')->only('Auth');
+$router->patch('/client-update', 'controllers/client/update.php')->only('Auth');
+$router->get('/client-edit.js', 'views/client/edit.js')->only('Auth');
 
 $router->routeToController($uri, $method);

@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const nidIN = document.getElementById('nid');
     const rfidBadgeIN = document.getElementById('rfid-badge');
     const fullNameIn = document.getElementById('full-name');
+    const phoneNumberIn = document.getElementById('phone-number');
+    const emailIn = document.getElementById('e-mail');
     const matriculaIn = document.getElementById('matricula');
     const endDateIN = document.getElementById('end-date');
 
@@ -54,6 +56,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         nidIN.value = data.clients[clientID].NID;
         rfidBadgeIN.value = data.clients[clientID].RFID;
         fullNameIn.value = data.clients[clientID].fullName;
+        phoneNumberIn.value = data.clients[clientID].phoneNumber;
+        emailIn.value = data.clients[clientID].email;
         matriculaIn.value = data.clients[clientID].matricula;
         endDateIN.value = data.clients[clientID].endDate;
 

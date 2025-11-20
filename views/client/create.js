@@ -3,9 +3,11 @@ document.addEventListener('DOMContentLoaded', async (e) => {
     const buttonPanel = document.querySelector('.client-selection');
     const infoPanel = document.querySelector('.client-info');
 
-    const nidIN = document.getElementById('nid');
-    const rfidBadgeIN = document.getElementById('rfid-badge');
+    const nidIn = document.getElementById('nid');
+    const rfidBadgeIn = document.getElementById('rfid-badge');
     const fullNameIn = document.getElementById('full-name');
+    const phoneNumberIn = document.getElementById('phone-number');
+    const emailIn = document.getElementById('e-mail');
     const matriculaIn = document.getElementById('matricula');
     const endDateDiv = document.querySelector('.end-date-label');
 
@@ -55,21 +57,25 @@ document.addEventListener('DOMContentLoaded', async (e) => {
         return isJson ? await res.json() : null;
     };
 
-    document.addEventListener('click', (e) => {
+    document.addEventListener('click', async (e) => {
         if (e.target.id == 'client-create-button') {
 
             buttonPanel.classList.add('hidden');
             infoPanel.classList.remove('hidden');
             endDateDiv.classList.add('hidden');
 
-            nidIN.value = null;
-            rfidBadgeIN.value = null;
+            nidIn.value = null;
+            rfidBadgeIn.value = null;
             fullNameIn.value = null;
+            phoneNumberIn.value = null;
+            emailIn.value = null;
             matriculaIn.value = null;
 
-            nidIN.disabled = false;
-            rfidBadgeIN.disabled = false;
+            nidIn.disabled = false;
+            rfidBadgeIn.disabled = false;
             fullNameIn.disabled = false;
+            phoneNumberIn.disabled = false;
+            emailIn.disabled = false;
             matriculaIn.disabled = false;
             
             submitBtn.classList.remove('hidden');
@@ -79,23 +85,25 @@ document.addEventListener('DOMContentLoaded', async (e) => {
             renewBtn.classList.add('hidden');
 
             submitBtn.addEventListener('click', async () => {
-                const NID = nidIN.value.trim();
-                const RFID = rfidBadgeIN.value.trim();
+                const NID = nidIn.value.trim();
+                const RFID = rfidBadgeIn.value.trim();
                 const fullName = fullNameIn.value.trim();
+                const phoneNumber = phoneNumberIn.value.trim();
+                const email = emailIn.value.trim();
                 const matricula = matriculaIn.value.trim();
 
                 setSubmitting(true);
 
-                if (!NID || !RFID || !fullName || !matricula) {
-                    setInvalid(nidIN, !NID);
-                    setInvalid(rfidBadgeIN, !RFID);
+                if (!NID || !RFID || !fullName || !phoneNumber) {
+                    setInvalid(nidIn, !NID);
+                    setInvalid(rfidBadgeIn, !RFID);
                     setInvalid(fullNameIn, !fullName);
-                    setInvalid(matriculaIn, !matricula);
+                    setInvalid(phoneNumberIn, !phoneNumber);
                     setSubmitting(false);
                     return;
                 }
 
-                const payload = { NID, RFID, fullName, matricula };
+                const payload = { NID, RFID, fullName, phoneNumber, email, matricula };
 
                 try {
                     const res = await fetch('/client-create', {
@@ -107,13 +115,31 @@ document.addEventListener('DOMContentLoaded', async (e) => {
                         body: JSON.stringify(payload)
                     });
 
-                    const data = await isJSON(res);
+                    if (!res.ok) {
+                    console.error('Bad JSON or not ok:');
+                    setSubmitting(false);
+                    return;
+                }
 
-                    if (!data.ok) throw new Error;
+                const data = await isJSON(res);
 
-                    window.location.assign(data.redirect);
+                if (!data.ok) { 
+                    setInvalid(nidIn, data.error.nid ?? false);
+                    setInvalid(rfidBadgeIn, data.error.rfid ?? false);
+                    setInvalid(fullNameIn, data.error.fullName ?? false);
+                    setInvalid(phoneNumberIn, data.error.phoneNumber ?? false);
+                    setInvalid(emailIn, data.error.email ?? false);
+                    setInvalid(matriculaIn, data.error.matricula ?? false);
+                    setSubmitting(false);
+                    return;
+                }
 
-                } catch {
+                window.location.assign(data.redirect);
+
+
+                } catch (error) {
+                    console.error(error);
+                    setSubmitting(false);
                     throw new Error;
                 }
             });
