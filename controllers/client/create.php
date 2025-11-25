@@ -3,7 +3,7 @@
 header('Content-Type: application/json');
 
 // Read JSON body (NOT $_POST for application/json)
-$data = json_decode($raw = file_get_contents('php://input'), true) ?? []; // associative array
+$data = json_decode(file_get_contents('php://input'), true) ?? []; // associative array
 
 if (!validate_nid($data['NID']) || !validate_rfid($data['RFID']) || !validate_full_name($data['fullName']) || !validate_phone_number($data['phoneNumber']) || !validate_email($data['email']) || !validate_matricula($data['matricula'])) {
     http_response_code(200);

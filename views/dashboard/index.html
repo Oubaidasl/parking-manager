@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-900">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Parking Manager</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+</head>
+<body class="h-full bg-gray-900">
+    <div class="min-h-full">
+        <!-- Navbar -->
+        <nav class="bg-gray-800/50">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="flex h-16 items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="shrink-0">
+                            <img
+                                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+                                alt="Your Company"
+                                class="size-8"
+                            />
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="ml-10 flex items-baseline space-x-4">
+                                <a
+                                    href="/"
+                                    aria-current="page"
+                                    class="rounded-md bg-gray-950/50 px-3 py-2 text-sm font-medium text-white"
+                                >Dashboard</a>
+                                <a
+                                    href="/client"
+                                    class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white"
+                                >Clients</a>
+                                <a
+                                    href="#"
+                                    class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white"
+                                >Analysis</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-4 flex items-center md:ml-6">
+                            <button
+                                type="button"
+                                class="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500"
+                            >
+                                <span class="absolute -inset-1.5"></span>
+                                <span class="sr-only">View notifications</span>
+                            </button>
+
+                            <!-- Profile dropdown -->
+                            <el-dropdown class="relative ml-3">
+                                <button
+                                    class="relative flex max-w-xs items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                                >
+                                    <span class="absolute -inset-1.5"></span>
+                                    <span class="sr-only">Open user menu</span>
+                                    <img
+                                        src="images/1.jpg"
+                                        alt=""
+                                        class="size-8 rounded-full outline -outline-offset-1 outline-white/10"
+                                    />
+                                </button>
+
+                                <el-menu
+                                    anchor="bottom end"
+                                    popover
+                                    class="w-48 origin-top-right rounded-md bg-gray-800 py-1 outline-1 -outline-offset-1 outline-white/10 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                                >
+                                    <a
+                                        href="#"
+                                        class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden"
+                                    >Your profile</a>
+                                    <a
+                                        href="/session-destroy"
+                                        class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden"
+                                    >Log out</a>
+                                </el-menu>
+                            </el-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Proper colored Dashboard page header -->
+        <header class="bg-gray-800">
+            <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <h1 class="text-3xl font-bold tracking-tight text-white">Dashboard</h1>
+            </div>
+        </header>
+
+        <main>
+            <div class="flex flex-col items-center mt-10 space-y-8">
+
+                <!-- Parking State card -->
+                <section class="w-[75vw] max-w-5xl rounded-2xl bg-[#192132] p-8 shadow-lg ring-1 ring-white/10">
+                    <h2 class="text-3xl font-bold text-white text-center mb-1">Parking State</h2>
+                    <div class="flex justify-center">
+                        <span class="inline-block h-1 w-16 rounded-full bg-indigo-400 mb-6"></span>
+                    </div>
+                    <div class="flex space-x-8 mb-8">
+                        <div id="total-spots" class="flex-1 bg-[#131b29] rounded-xl flex flex-col items-center py-6">
+                            <span class="text-gray-400 font-medium tracking-wide mb-2">TOTAL SPOTS</span>
+                            <span data-id="total-spots-value" class="text-4xl font-extrabold text-indigo-400">5</span>
+                        </div>
+                        <div id="empty-spots" class="flex-1 bg-[#131b29] rounded-xl flex flex-col items-center py-6">
+                            <span class="text-gray-400 font-medium tracking-wide mb-2">EMPTY SPOTS</span>
+                            <span data-id="empty-spots-value" class="text-4xl font-extrabold text-green-400">2</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="block font-semibold text-white mb-2 ml-2">Slots</span>
+                        <div class="flex justify-center gap-6 mb-3">
+                            <div class="w-32 h-32 rounded-xl bg-red-500 grid place-content-center text-2xl font-bold text-white">P1</div>
+                            <div class="w-32 h-32 rounded-xl bg-green-500 grid place-content-center text-2xl font-bold text-white">P2</div>
+                            <div class="w-32 h-32 rounded-xl bg-red-500 grid place-content-center text-2xl font-bold text-white">P3</div>
+                            <div class="w-32 h-32 rounded-xl bg-green-500 grid place-content-center text-2xl font-bold text-white">P4</div>
+                            <div class="w-32 h-32 rounded-xl bg-red-500 grid place-content-center text-2xl font-bold text-white">P5</div>
+                        </div>
+                        <div class="flex items-center space-x-5 mt-3 ml-2">
+                            <div class="flex items-center space-x-1">
+                                <span class="h-4 w-4 rounded-full bg-green-500"></span>
+                                <span class="text-sm text-green-400">Empty</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <span class="h-4 w-4 rounded-full bg-red-500"></span>
+                                <span class="text-sm text-red-400">Occupied</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Clients Info card -->
+                <section class="w-[75vw] max-w-5xl rounded-2xl bg-[#192132] p-8 shadow-lg ring-1 ring-white/10">
+                    <h2 class="text-3xl font-bold text-white text-center mb-1">Clients Info</h2>
+                    <div class="flex justify-center">
+                        <span class="inline-block h-1 w-16 rounded-full bg-indigo-400 mb-6"></span>
+                    </div>
+                    <div class="flex space-x-8 mb-8">
+                        <div id="total-users" class="flex-1 bg-[#131b29] rounded-xl flex flex-col items-center py-6">
+                            <span class="text-gray-400 font-medium tracking-wide mb-2">TOTAL USERS</span>
+                            <span data-id="total-users-value" class="text-4xl font-extrabold text-indigo-400">128</span>
+                        </div>
+                        <div id="permitted" class="flex-1 bg-[#131b29] rounded-xl flex flex-col items-center py-6">
+                            <span class="text-gray-400 font-medium tracking-wide mb-2">PERMITTED</span>
+                            <span data-id="permitted-value" class="text-4xl font-extrabold text-green-400">95</span>
+                        </div>
+                    </div>
+                    <div class="flex space-x-8">
+                        <div id="expired-subs" class="flex-1 bg-[#131b29] rounded-xl flex flex-col items-center py-6">
+                            <span class="text-gray-400 font-medium tracking-wide mb-2">EXPIRED SUBS</span>
+                            <span data-id="expired-subs-value" class="text-2xl font-semibold text-red-400">7</span>
+                        </div>
+                        <div id="expiring-this-week" class="flex-1 bg-[#131b29] rounded-xl flex flex-col items-center py-6">
+                            <span class="text-gray-400 font-medium tracking-wide mb-2">EXPIRING THIS WEEK</span>
+                            <span data-id="expiring-this-week-value" class="text-2xl font-semibold text-yellow-300">15</span>
+                        </div>
+                        <div id="new-this-month" class="flex-1 bg-[#131b29] rounded-xl flex flex-col items-center py-6">
+                            <span class="text-gray-400 font-medium tracking-wide mb-2">NEW THIS MONTH</span>
+                            <span data-id="new-this-month-value" class="text-2xl font-semibold text-emerald-300">23</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="/dashboard-read.js"></script>
+</body>
+</html>

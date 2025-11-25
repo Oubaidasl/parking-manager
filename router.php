@@ -9,7 +9,7 @@ $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
 $router = new Router();
 
-$router->get('/', 'controllers/home.php')->only('Auth');
+$router->get('/', 'controllers/dashboard/index.php')->only('Auth');
 $router->get('/login', 'controllers/session/update.php')->only('Guest');
 $router->get('/login.js', 'views/login/login.js')->only('Guest');
 $router->post('/session-create', 'controllers/session/create.php')->only('Guest');
@@ -23,5 +23,9 @@ $router->post('/client-create', 'controllers/client/create.php')->only('Auth');
 $router->get('/client-renew.js', 'views/client/renew.js')->only('Auth');
 $router->patch('/client-update', 'controllers/client/update.php')->only('Auth');
 $router->get('/client-edit.js', 'views/client/edit.js')->only('Auth');
+$router->delete('/client-delete', 'controllers/client/destroy.php')->only('Auth');
+$router->get('/client-delete.js', 'views/client/delete.js')->only('Auth');
+$router->get('/dashboard-read.js', 'views/dashboard/read.js')->only('Auth');
+$router->get('/dashboard-read', 'controllers/dashboard/read.php')->only('Auth');
 
 $router->routeToController($uri, $method);
