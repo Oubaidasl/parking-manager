@@ -1,29 +1,9 @@
 <?php
 
+use Core\DB;
+use Core\App;
+
 header('Content-Type: application/json');
-
-
-$clients = [
-    'L679708' => [
-        'NID' => 'L679708',
-        'fullName' => 'Assladday Oubaida',
-        'phoneNumber' => '0612777397',
-        'email' => 'oassladday@gmail.com',
-        'RFID' => '80:38104',
-        'matricula' => 'A-44-56098',
-        'endDate' => '2025-12-13'
-    ],
-
-    'L160997' => [
-        'NID' => 'L160997',
-        'fullName' => 'Assladday Mustaphpa',
-        'phoneNumber' => '0668275899',
-        'email' => '',
-        'RFID' => '80:38555',
-        'matricula' => 'A-40-50008',
-        'endDate' => '2026-01-23'
-    ]
-];
 
 
 // Read JSON body (NOT $_POST for application/json)
@@ -37,9 +17,14 @@ if (!$nid) {
     exit;
 }
 
+$db = App::resolve(DB::class);
+$client = $db->executeQuery(
+    "SELECT * FROM clients WHERE nid = :nid",
+    ['nid' => $nid]
+)->fetch(PDO::FETCH_ASSOC);
+
 
 // Example: fetch existing
-$client = $clients[$nid] ?? null;
 if (!$client) {
     http_response_code(200);
     echo json_encode([
@@ -47,6 +32,21 @@ if (!$client) {
     ]);
     exit;
 }
+
+$db->executeQuery(
+    "DELETE FROM clients WHERE nid = :nid",
+    ['nid' => $nid]   // e.g. $nid = 'MA123456789'
+);
+
+$db->executeQuery(
+    "INSERT INTO adminactions (admin_id, action_type, target_nid)
+    VALUES (:admin_id, :action_type, :target_nid)",
+    [
+        'admin_id'   => $_SESSION['id'],
+        'action_type'=> 'Delete',
+        'target_nid' => $nid
+    ]
+);
 
 http_response_code(200);
 echo json_encode([

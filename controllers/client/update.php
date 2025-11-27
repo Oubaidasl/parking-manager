@@ -1,32 +1,11 @@
 <?php
 
+use Core\DB;
+use Core\App;
+
 date_default_timezone_set('UTC');
 
 header('Content-Type: application/json');
-
-
-$clients = [
-    'L679708' => [
-        'NID' => 'L679708',
-        'fullName' => 'Assladday Oubaida',
-        'phoneNumber' => '0612777397',
-        'email' => 'oassladday@gmail.com',
-        'RFID' => '80:38104',
-        'matricula' => 'A-44-56098',
-        'endDate' => '2025-12-13'
-    ],
-
-    'L160997' => [
-        'NID' => 'L160997',
-        'fullName' => 'Assladday Mustaphpa',
-        'phoneNumber' => '0668275899',
-        'email' => '',
-        'RFID' => '80:38555',
-        'matricula' => 'A-40-50008',
-        'endDate' => '2026-01-23'
-    ]
-];
-
 
 // Read JSON body (NOT $_POST for application/json)
 $data = json_decode($raw = file_get_contents('php://input'), true) ?? []; // associative array
@@ -44,9 +23,13 @@ if (!$nid) {
     exit;
 }
 
+$db = App::resolve(DB::class);
+$client = $db->executeQuery(
+    "SELECT * FROM clients WHERE nid = :nid",
+    ['nid' => $nid]
+)->fetch(PDO::FETCH_ASSOC);
 
 // Example: fetch existing
-$client = $clients[$nid] ?? null;
 if (!$client) {
     http_response_code(200);
     echo json_encode([
@@ -69,10 +52,44 @@ if ($hasPlan) {
     }
 
     $today = new DateTimeImmutable('today'); 
-    $currentEnd = isset($client['endDate']) ? parseYmd($client['endDate']) : $today;
+    $currentEnd = isset($client['plan_end_date']) ? parseYmd($client['plan_end_date']) : $today;
     $base = ($currentEnd >= $today) ? $currentEnd : $today;
     $newEnd = addMonthsClamped($base, $months);
-    $client['endDate'] = formatYmd($newEnd);
+    // $client['endDate'] = formatYmd($newEnd);
+
+    // 1) update client plan_end_date
+    $db->executeQuery(
+        "UPDATE clients 
+         SET plan_end_date = :end_date 
+         WHERE nid = :nid",
+        [
+            'end_date' => formatYmd($newEnd),
+            'nid'      => $nid
+        ]
+    );
+
+    // 2) log admin action: Renew
+    $db->executeQuery(
+        "INSERT INTO adminactions (admin_id, action_type, target_nid)
+         VALUES (:admin_id, :action_type, :target_nid)",
+        [
+            'admin_id'   => $_SESSION['id'],
+            'action_type'=> 'Renew',
+            'target_nid' => $nid
+        ]
+    );
+
+    // 3) log Renewals: Renew
+    $db->executeQuery(
+        "INSERT INTO renewals (admin_id, renewed_to, client_nid)
+         VALUES (:admin_id, :renewed_to, :client_nid)",
+        [
+            'admin_id'   => $_SESSION['id'],
+            'renewed_to' => formatYmd($newEnd),
+            'client_nid' => $nid
+        ]
+    );
+
 
     http_response_code(200);
     echo json_encode([
@@ -97,6 +114,36 @@ if ($hasPlan) {
         ]); 
         exit;
     }
+
+    // 1) update client plan_end_date
+    $db->executeQuery(
+        "UPDATE clients
+            SET full_name = :full_name,
+                phone     = :phone,
+                email     = :email,
+                badge_code = :rfid,
+                vehicle_matricula = :matricula
+            WHERE nid = :nid",
+        [
+            'full_name' => $data['fullName'],
+            'phone'     => $data['phoneNumber'],
+            'email'     => $data['email'] ?: null,
+            'rfid'      => $data['RFID'],
+            'matricula' => $data['matricula'] ?: null,
+            'nid'       => $nid
+        ]
+    );
+
+    // 2) log admin action: Update
+    $db->executeQuery(
+        "INSERT INTO adminactions (admin_id, action_type, target_nid)
+         VALUES (:admin_id, :action_type, :target_nid)",
+        [
+            'admin_id'   => $_SESSION['id'],
+            'action_type'=> 'Update',
+            'target_nid' => $nid
+        ]
+    );
 
     http_response_code(200);
     echo json_encode([

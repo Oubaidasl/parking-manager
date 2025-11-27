@@ -27,5 +27,7 @@ $router->delete('/client-delete', 'controllers/client/destroy.php')->only('Auth'
 $router->get('/client-delete.js', 'views/client/delete.js')->only('Auth');
 $router->get('/dashboard-read.js', 'views/dashboard/read.js')->only('Auth');
 $router->get('/dashboard-read', 'controllers/dashboard/read.php')->only('Auth');
+$router->get('/test', 'controllers/test.php');
+
 
 $router->routeToController($uri, $method);
