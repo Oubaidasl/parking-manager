@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assladday Oubaida - Cybersecurity Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'rgb(0, 79, 144)',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .section-enter { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .section-enter.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-200 shadow-sm">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex justify-between items-center py-4">
+                <a href="#home" class="text-2xl font-bold text-primary">Assladday Oubaida</a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" data-target="home"
+                       class="nav-link pb-2 border-b-2 border-transparent hover:border-primary transition-colors">
+                        Home
+                    </a>
+                    <a href="#about" data-target="about"
+                       class="nav-link pb-2 border-b-2 border-transparent hover:border-primary transition-colors">
+                        About
+                    </a>
+                    <a href="#skills" data-target="skills"
+                       class="nav-link pb-2 border-b-2 border-transparent hover:border-primary transition-colors">
+                        Skills
+                    </a>
+                    <a href="#education" data-target="education"
+                       class="nav-link pb-2 border-b-2 border-transparent hover:border-primary transition-colors">
+                        Education
+                    </a>
+                    <a href="#projects" data-target="projects"
+                       class="nav-link pb-2 border-b-2 border-transparent hover:border-primary transition-colors">
+                        Projects
+                    </a>
+                    <a href="#experience" data-target="experience"
+                       class="nav-link pb-2 border-b-2 border-transparent hover:border-primary transition-colors">
+                        Experience
+                    </a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden p-2">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
+            <div class="px-6 py-4 space-y-4">
+                <a href="#home" data-target="home" class="nav-link block pb-2 border-b-2 border-transparent hover:border-primary">Home</a>
+                <a href="#about" data-target="about" class="nav-link block pb-2 border-b-2 border-transparent hover:border-primary">About</a>
+                <a href="#skills" data-target="skills" class="nav-link block pb-2 border-b-2 border-transparent hover:border-primary">Skills</a>
+                <a href="#education" data-target="education" class="nav-link block pb-2 border-b-2 border-transparent hover:border-primary">Education</a>
+                <a href="#projects" data-target="projects" class="nav-link block pb-2 border-b-2 border-transparent hover:border-primary">Projects</a>
+                <a href="#experience" data-target="experience" class="nav-link block pb-2 border-b-2 border-transparent hover:border-primary">Experience</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary to-blue-800 text-white pt-20">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <div class="section-enter">
+                <div class="w-32 h-32 bg-white/20 rounded-full mx-auto mb-8 flex items-center justify-center">
+                    <i class="fas fa-shield-alt text-4xl"></i>
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold mb-6">Assladday Oubaida</h1>
+                <h2 class="text-2xl md:text-3xl mb-8 opacity-90">Cybersecurity & Embedded Systems Engineer</h2>
+                <p class="text-xl md:text-2xl max-w-2xl mx-auto mb-12 leading-relaxed">Penetration Testing | Exploit Development | Network Security | x86-64 Assembly</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
+                    <a href="#projects" class="bg-white text-primary px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 shadow-xl">View Projects</a>
+                    <a href="#contact" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-primary transition-all duration-300">Contact Me</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-20 section-enter">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">About Me</h2>
+                <div class="w-24 h-1 bg-primary mx-auto"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center section-enter">
+                <div>
+                    <p class="text-xl leading-relaxed mb-8">I am a Cybersecurity and Embedded Systems Engineering student at ENSA Tétouan with expertise in network security, penetration testing, and high/low-level programming (Python, Java, x86-64 Assembly). Currently interning at <a href="https://deltawaresolution.com/" class="text-primary font-semibold hover:underline">Deltaware Solutions</a>.</p>
+                    <p class="text-lg leading-relaxed">Holding certifications including eCPPT and Google Cybersecurity Professional Certificate, with hands-on experience in exploit development, Active Directory attacks, and web application security. Actively seeking penetration testing opportunities to apply offensive security expertise.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="text-center p-6 bg-gray-50 rounded-2xl hover:shadow-lg transition-all duration-300">
+                        <div class="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-graduation-cap text-2xl text-white"></i>
+                        </div>
+                        <h3 class="font-semibold text-xl mb-2">ENSA Tétouan</h3>
+                        <p class="text-gray-600">Cybersecurity Engineering</p>
+                    </div>
+                    <div class="text-center p-6 bg-gray-50 rounded-2xl hover:shadow-lg transition-all duration-300">
+                        <div class="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-certificate text-2xl text-white"></i>
+                        </div>
+                        <h3 class="font-semibold text-xl mb-2">eCPPT Certified</h3>
+                        <p class="text-gray-600">Professional Penetration Tester</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-20 section-enter">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Skills & Technologies</h2>
+                <div class="w-24 h-1 bg-primary mx-auto"></div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 section-enter">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-primary flex items-center"><i class="fas fa-code mr-3"></i>Programming</h3>
+                    <ul class="space-y-3">
+                        <li><i class="fas fa-circle text-primary mr-2 text-sm"></i>Python, Java, VHDL</li>
+                        <li><i class="fas fa-circle text-primary mr-2 text-sm"></i>Bash, PowerShell</li>
+                        <li><i class="fas fa-circle text-primary mr-2 text-sm"></i>Assembly (x86/x86-64/AVR)</li>
+                        <li><i class="fas fa-circle text-primary mr-2 text-sm"></i>Shellcoding</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-primary flex items-center"><i class="fas fa-shield-alt mr-3"></i>Cybersecurity</h3>
+                    <ul class="space-y-3">
+                        <li><i class="fas fa-circle text-primary mr-2 text-sm"></i>Network Pentesting</li>
+                        <li><i class="fas fa-circle text-primary mr-2 text-sm"></i>Web App Pentesting</li>
+                        <li><i class="fas fa-circle text-primary mr-2 text-sm"></i>Active Directory Attacks</li>
+                        <li><i class="fas fa-circle text-primary mr-2 text-sm"></i>Exploit Development</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-primary flex items-center"><i class="fas fa-tools mr-3"></i>Tools</h3>
+                    <ul class="space-y-3">
+                        <li><i class="fas fa-circle text-primary mr-2 text-sm"></i>Burp Suite, Metasploit</li>
+                        <li><i class="fas fa-circle text-primary mr-2 text-sm"></i>Nmap, Wireshark</li>
+                        <li><i class="fas fa-circle text-primary mr-2 text-sm"></i>BloodHound, Impacket</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-primary flex items-center"><i class="fas fa-users mr-3"></i>Soft Skills</h3>
+                    <ul class="space-y-3">
+                        <li><i class="fas fa-circle text-primary mr-2 text-sm"></i>Problem Solving</li>
+                        <li><i class="fas fa-circle text-primary mr-2 text-sm"></i>Team Leadership</li>
+                        <li><i class="fas fa-circle text-primary mr-2 text-sm"></i>Continuous Learning</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education & Certifications Section (split) -->
+    <section id="education" class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-20 section-enter">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Education</h2>
+                <div class="w-24 h-1 bg-primary mx-auto"></div>
+            </div>
+
+            <!-- Education cards -->
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto section-enter">
+                <div class="bg-gradient-to-r from-primary to-blue-700 p-8 rounded-3xl text-white">
+                    <h3 class="text-2xl font-bold mb-4">Cybersecurity and Embedded Systems Engineer</h3>
+                    <p class="text-blue-100 mb-4">École Nationale des Sciences Appliquées (ENSA), Tétouan</p>
+                    <p class="text-lg opacity-90">Sept 2022 – July 2027 (In Progress)</p>
+                </div>
+                <div class="bg-gradient-to-r from-emerald-500 to-green-600 p-8 rounded-3xl text-white">
+                    <h3 class="text-2xl font-bold mb-4">Baccalaureate in Physical Sciences</h3>
+                    <p class="text-emerald-100 mb-4">Lycée Qadi Ayad, Tetouan, Morocco</p>
+                    <p class="text-lg opacity-90">Sept 2019 – July 2022 | Mention Très Bien</p>
+                </div>
+            </div>
+
+            <!-- Certifications -->
+            <div class="text-center mt-20 mb-12 section-enter">
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Certifications</h3>
+                <div class="w-20 h-1 bg-primary mx-auto"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 section-enter">
+                <a href="https://certs.ine.com/7ab83fa4-1262-4305-80d7-4edf9220bd19#acc.wuLF1MEg" target="_blank" class="group bg-gradient-to-r from-purple-500 to-purple-600 p-6 rounded-2xl text-white hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                    <h4 class="font-bold text-xl mb-2 group-hover:underline">eCPPT</h4>
+                    <p class="opacity-90">Oct 2025 | INE</p>
+                </a>
+                <a href="https://my.ine.com/CyberSecurity/learning-paths/61f88d91-79ff-4d8f-af68-873883dbbd8c/penetration-testing-student" target="_blank" class="group bg-gradient-to-r from-orange-500 to-orange-600 p-6 rounded-2xl text-white hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                    <h4 class="font-bold text-xl mb-2 group-hover:underline">eJPT Path</h4>
+                    <p class="opacity-90">Jun 2025 | Full Curriculum</p>
+                </a>
+                <a href="https://www.credly.com/badges/c231715d-e10f-4159-849d-f93147a3f3ca/" target="_blank" class="group bg-gradient-to-r from-blue-500 to-blue-600 p-6 rounded-2xl text-white hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                    <h4 class="font-bold text-xl mb-2 group-hover:underline">Google Cybersecurity</h4>
+                    <p class="opacity-90">Mar 2025 | 8 Courses</p>
+                </a>
+                <a href="http://www.SecurityTube-Training.com" target="_blank" class="group bg-gradient-to-r from-red-500 to-red-600 p-6 rounded-2xl text-white hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 md:col-span-2 lg:col-span-1">
+                    <h4 class="font-bold text-xl mb-2 group-hover:underline">SLAE-32 & SLAE-64</h4>
+                    <p class="opacity-90">2024 | Exploit Development</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-20 section-enter">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Featured Projects</h2>
+                <div class="w-24 h-1 bg-primary mx-auto"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 section-enter">
+                <a href="https://github.com/m-arjaz/letsshare" target="_blank" class="group bg-white p-8 rounded-3xl shadow-xl hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 border-2 border-transparent hover:border-primary">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-share text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 group-hover:text-primary">LetsShare</h3>
+                    <h4 class="text-xl font-semibold mb-6 text-gray-600">File Transfer Application</h4>
+                    <ul class="space-y-2 mb-8 text-gray-600">
+                        <li><i class="fas fa-check text-emerald-500 mr-2"></i>Secure TCP/IP file transfers with Java Swing GUI</li>
+                        <li><i class="fas fa-check text-emerald-500 mr-2"></i>Progress tracking, IP validation, error handling</li>
+                        <li><i class="fas fa-check text-emerald-500 mr-2"></i>32KB buffer optimization and firewall management</li>
+                    </ul>
+                    <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                        <span class="text-primary font-semibold">Java • Swing • Networking</span>
+                        <i class="fas fa-external-link-alt text-primary"></i>
+                    </div>
+                </a>
+                <a href="https://github.com/Oubaidasl/x86-64-payloads" target="_blank" class="group bg-white p-8 rounded-3xl shadow-xl hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 border-2 border-transparent hover:border-primary">
+                    <div class="w-16 h-16 bg-gradient-to-r from-red-500 to-orange-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-bug text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 group-hover:text-primary">Custom Shellcode</h3>
+                    <h4 class="text-xl font-semibold mb-6 text-gray-600">Exploit Engineering</h4>
+                    <ul class="space-y-2 mb-8 text-gray-600">
+                        <li><i class="fas fa-check text-emerald-500 mr-2"></i>Bind/reverse TCP shells in x86-64 assembly (NASM)</li>
+                        <li><i class="fas fa-check text-emerald-500 mr-2"></i>Null-free shellcode with RIP-relative addressing</li>
+                        <li><i class="fas fa-check text-emerald-500 mr-2"></i>Direct Linux syscalls + GDB debugging</li>
+                    </ul>
+                    <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                        <span class="text-primary font-semibold">x86-64 Assembly • Syscalls • GDB</span>
+                        <i class="fas fa-external-link-alt text-primary"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-20 section-enter">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Experience</h2>
+            </div>
+            <div class="max-w-4xl mx-auto space-y-12 section-enter">
+                <div class="flex items-start space-x-6">
+                    <div class="w-3 h-3 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    <div class="flex-1">
+                        <div class="flex items-center mb-4">
+                            <a href="https://deltawaresolution.com/" target="_blank" class="bg-gradient-to-r from-primary to-blue-700 text-white px-6 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all mr-4">
+                                <i class="fas fa-briefcase mr-2"></i>Deltaware Solutions
+                            </a>
+                            <span class="text-sm text-gray-500">Nov 2025 – Present</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Cybersecurity Intern</h3>
+                        <ul class="space-y-3 text-lg">
+                            <li><i class="fas fa-arrow-right text-primary mr-3"></i>Security assessments and hardening for client infrastructures</li>
+                            <li><i class="fas fa-arrow-right text-primary mr-3"></i>Vulnerability identification, validation, and reporting</li>
+                            <li><i class="fas fa-arrow-right text-primary mr-3"></i>Implementation of cybersecurity solutions and documentation</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-6">
+                    <div class="w-3 h-3 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    <div class="flex-1">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-gradient-to-r from-gray-500 to-gray-600 text-white px-6 py-2 rounded-full text-sm font-semibold">North Hacking Day</span>
+                            <span class="text-sm text-gray-500">Feb 2025</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">CTF Competition - ENSA Tétouan</h3>
+                        <ul class="space-y-3 text-lg">
+                            <li><i class="fas fa-arrow-right text-primary mr-3"></i>Competitive Capture The Flag cybersecurity challenges</li>
+                            <li><i class="fas fa-arrow-right text-primary mr-3"></i>Web exploitation, cryptography, and forensics categories</li>
+                            <li><i class="fas fa-arrow-right text-primary mr-3"></i>Enhanced problem-solving and technical research skills</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Languages Section -->
+    <section class="py-24 bg-gradient-to-r from-primary to-blue-800 text-white">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <div class="section-enter">
+                <h2 class="text-4xl md:text-5xl font-bold mb-12">Languages</h2>
+                <div class="grid md:grid-cols-3 gap-8 max-w-2xl mx-auto">
+                    <div>
+                        <h3 class="text-3xl font-bold mb-4">Arabic</h3>
+                        <div class="w-full bg-white/20 rounded-full h-4">
+                            <div class="bg-white h-4 rounded-full w-full animate-pulse"></div>
+                        </div>
+                        <p class="text-xl mt-2 font-semibold">Native</p>
+                    </div>
+                    <div>
+                        <h3 class="text-3xl font-bold mb-4">French</h3>
+                        <div class="w-full bg-white/20 rounded-full h-4">
+                            <div class="bg-white/90 h-4 rounded-full w-[90%]"></div>
+                        </div>
+                        <p class="text-xl mt-2 font-semibold">Proficient</p>
+                    </div>
+                    <div>
+                        <h3 class="text-3xl font-bold mb-4">English</h3>
+                        <div class="w-full bg-white/20 rounded-full h-4">
+                            <div class="bg-white/90 h-4 rounded-full w-[90%]"></div>
+                        </div>
+                        <p class="text-xl mt-2 font-semibold">Proficient</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-white">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="section-enter">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Get In Touch</h2>
+                <p class="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">Ready for penetration testing challenges and cybersecurity opportunities.</p>
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <a href="mailto:oassladday@gmail.com" class="group p-8 bg-gray-50 rounded-3xl hover:bg-primary hover:text-white transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                        <i class="fas fa-envelope text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
+                        <h3 class="font-bold text-xl mb-2">Email</h3>
+                        <p>oassladday@gmail.com</p>
+                    </a>
+                    <a href="tel:+212612777397" class="group p-8 bg-gray-50 rounded-3xl hover:bg-primary hover:text-white transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                        <i class="fas fa-phone text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
+                        <h3 class="font-bold text-xl mb-2">Phone</h3>
+                        <p>(212) 612777397</p>
+                    </a>
+                    <a href="https://www.linkedin.com/in/oubaida-assladday-a66392319" target="_blank" class="group p-8 bg-gray-50 rounded-3xl hover:bg-primary hover:text-white transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                        <i class="fab fa-linkedin text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
+                        <h3 class="font-bold text-xl mb-2">LinkedIn</h3>
+                        <p>oubaidaasl</p>
+                    </a>
+                </div>
+
+                <!-- Download CV button (ASSLADDAY_OUBAIDA.pdf in same folder) -->
+                <a href="ASSLADDAY_OUBAIDA.pdf" download
+                   class="inline-flex items-center bg-primary text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <i class="fas fa-file-pdf mr-2"></i>
+                    Download CV
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <p>&copy; 2025 Assladday Oubaida. Built for cybersecurity.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-enter').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // Active link underline based on section in view
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        const setActiveLink = () => {
+            let currentId = '';
+            const offset = 120; // navbar height margin
+
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top - offset <= 0 && rect.bottom - offset > 0) {
+                    currentId = section.id;
+                }
+            });
+
+            navLinks.forEach(link => {
+                if (link.dataset.target === currentId) {
+                    link.classList.remove('border-transparent');
+                    link.classList.add('border-primary', 'text-primary');
+                } else {
+                    link.classList.remove('border-primary', 'text-primary');
+                    link.classList.add('border-transparent');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', setActiveLink);
+        window.addEventListener('load', setActiveLink);
+    </script>
+</body>
+</html>

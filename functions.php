@@ -44,8 +44,8 @@ function addMonthsClamped(DateTimeImmutable $dt, int $months): DateTimeImmutable
 
 // Validate RFID (basic check, adjust pattern according to your format)
 function validate_rfid($rfid) {
-    // Typical RFID: numeric/hex blocks (e.g., "12:FD:34:56")
-    return preg_match('/^([A-Fa-f0-9]{2}:){1,}[A-Fa-f0-9]{2}$/', $rfid) === 1;
+    // 4 hex bytes: 8 hex chars, no separators
+    return preg_match('/^[A-Fa-f0-9]{8}$/', $rfid) === 1;
 }
 
 // Validate Full Name: at least two words, each starting with a capital letter
@@ -73,5 +73,6 @@ function validate_matricula($matricula) {
 
 // Validate NID: one or two uppercase letters, followed by 6 digits (e.g. 'L160997' or 'AB123456')
 function validate_nid($nid) {
-    return preg_match('/^[A-Z]{1,2}\d{6}$/', $nid) === 1;
+    return preg_match('/^([A-Z]\d{6}|[A-Z]{2}\d{5})$/', $nid) === 1;
 }
+
