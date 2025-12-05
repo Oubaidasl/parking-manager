@@ -8,12 +8,28 @@ header('Content-Type: application/json');
 $db = App::resolve(DB::class);
 
 // slots
-$slots = $db->executeQuery("
+$slotsRaw = $db->executeQuery("
     SELECT
-        COUNT(id) AS totalSlots,
-        COUNT(CASE WHEN is_empty = 1 THEN 1 END) AS emptySlots
+        id,
+        is_empty
     FROM parkingslots
-")->fetch(PDO::FETCH_ASSOC);
+")->fetchAll(PDO::FETCH_ASSOC);
+
+// totals
+$totalSlots = count($slotsRaw);
+$emptySlots = 0;
+
+$slotsData = array_map(function ($row) use (&$emptySlots) {
+    if ($row['is_empty']) {
+        $emptySlots++;
+    }
+
+    return [
+        'id'     => (int) $row['id'],
+        'label'  => 'P' . (int) $row['id'],           // <- use id as name
+        'status' => $row['is_empty'] ? 'EMPTY' : 'OCCUPIED',
+    ];
+}, $slotsRaw);
 
 // clients
 $clients = $db->executeQuery("
@@ -28,12 +44,13 @@ $clients = $db->executeQuery("
 ")->fetch(PDO::FETCH_ASSOC);
 
 echo json_encode([
-    'ok'              => true,
-    'totalSpots'      => $slots['totalSlots'],
-    'emptySpots'      => $slots['emptySlots'],
-    'totalUsers'      => $clients['totalUsers'],
-    'permitted'       => $clients['permitted'],
-    'expiredSubs'     => $clients['totalUsers'] - $clients['permitted'],
-    'expiringThisWeek'=> $clients['expiringThisWeek'],
-    'newThisMonth'    => $clients['newThisMonth'],
+    'ok'               => true,
+    'totalSpots'       => $totalSlots,
+    'emptySpots'       => $emptySlots,
+    'totalUsers'       => (int) $clients['totalUsers'],
+    'permitted'        => (int) $clients['permitted'],
+    'expiredSubs'      => (int) $clients['totalUsers'] - (int) $clients['permitted'],
+    'expiringThisWeek' => (int) $clients['expiringThisWeek'],
+    'newThisMonth'     => (int) $clients['newThisMonth'],
+    'slots'            => $slotsData,
 ]);
