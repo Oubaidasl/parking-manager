@@ -27,7 +27,11 @@ $router->delete('/client-delete', 'controllers/client/destroy.php')->only('Auth'
 $router->get('/client-delete.js', 'views/client/delete.js')->only('Auth');
 $router->get('/dashboard-read.js', 'views/dashboard/read.js')->only('Auth');
 $router->get('/dashboard-read', 'controllers/dashboard/read.php')->only('Auth');
+$router->get('/log', 'controllers/log/index.php')->only('Auth');
+$router->get('/log-read', 'controllers/log/read.php')->only('Auth');
+$router->get('/log-read.js', 'views/log/read.js')->only('Auth');
 $router->get('/esp-read', 'controllers/esp/read.php');
+$router->post('/esp-create', 'controllers/esp/create.php');
 $router->get('/test', 'controllers/test.php');
 
 
