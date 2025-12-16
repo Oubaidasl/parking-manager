@@ -43,7 +43,7 @@ parking-manager/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Oubaidasl/parking-manager. git
+   git clone https://github.com/Oubaidasl/parking-manager.git
    cd parking-manager
    ```
 
