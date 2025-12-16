@@ -21,7 +21,6 @@ parking-manager/
 ├── src/
 │   ├── website/        # Web application files (HTML, JS, PHP)
 │   ├── esp_code/       # ESP microcontroller code
-│   └── espcode/        # Additional ESP-related code
 ```
 
 ## ✨ Features
