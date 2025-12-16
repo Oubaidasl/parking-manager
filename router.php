@@ -32,6 +32,7 @@ $router->get('/log-read', 'controllers/log/read.php')->only('Auth');
 $router->get('/log-read.js', 'views/log/read.js')->only('Auth');
 $router->get('/esp-read', 'controllers/esp/read.php');
 $router->post('/esp-create', 'controllers/esp/create.php');
+$router->post('/esp-update', 'controllers/esp/update.php');
 $router->get('/test', 'controllers/test.php');
 
 
