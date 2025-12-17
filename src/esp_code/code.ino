@@ -6,12 +6,12 @@
 #include <ArduinoJson.h>
 
 // ==================== WiFi Configuration ====================
-const char* ssid = "iPhone de Omar";
+const char* ssid     = "iPhone de Omar";
 const char* password = "123456789";
 
 // ==================== Server Configuration ====================
 const char* serverURL = "http://172.20.10.2";
-const char* apiKey = "ESP32_RFID_2025_KEY123";
+const char* apiKey    = "ESP32_RFID_2025_KEY123";
 
 // ==================== RFID Pins (Your Setup) ====================
 #define SCK_PIN     14
@@ -21,7 +21,7 @@ const char* apiKey = "ESP32_RFID_2025_KEY123";
 #define RST_PIN     4
 
 // ==================== Gate & Sensors ====================
-#define GATE_SERVO      2
+#define GATE_SERVO      10
 #define ENTRANCE_IR     5
 
 // ==================== Parking Spots (3 spots) ====================
@@ -39,12 +39,47 @@ Servo gate;
 
 // ==================== Variables ====================
 const int TOTAL_SPOTS = 3;
-bool spotStatus[TOTAL_SPOTS] = {true, true, true};
-int spotIRPins[TOTAL_SPOTS] = {SPOT1_IR, SPOT2_IR, SPOT3_IR};
+bool spotStatus[TOTAL_SPOTS] = {true, true, true};   // true = EMPTY
+int  spotIRPins[TOTAL_SPOTS] = {SPOT1_IR, SPOT2_IR, SPOT3_IR};
 
 String validRFIDs[100];
 String validNIDs[100];
-int rfidCount = 0;
+int    rfidCount = 0;
+
+// --------- gate & IR helpers ----------
+int currentGateAngle = 90;  // 90 = closed, 270 = open
+
+void setGate(int angle) {
+  gate.write(angle);
+  currentGateAngle = angle;
+}
+
+bool gateIsOpen()   { return currentGateAngle == 270; }
+bool gateIsClosed() { return currentGateAngle == 90;  }
+
+// IR sensor: LOW = vehicle present
+bool isCarPresent() {
+  return digitalRead(ENTRANCE_IR) == LOW;
+}
+
+void waitForCarToPass() {
+  // Wait until car leaves IR beam (max 15 s to avoid blocking forever)
+  unsigned long t0 = millis();
+  while (isCarPresent() && (millis() - t0 < 15000)) {
+    yield();
+    delay(50);
+  }
+}
+
+// Count free spots (EMPTY = true)
+int getFreeSpots() {
+  int freeCount = 0;
+  for (int i = 0; i < TOTAL_SPOTS; i++) {
+    if (spotStatus[i]) freeCount++;
+  }
+  return freeCount;
+}
+// -------------------------------------------
 
 // ==================== SETUP ====================
 void setup() {
@@ -65,7 +100,7 @@ void setup() {
   Serial.println("[OK] Pins initialized");
 
   // Initialize SPI for RFID
-  SPI. begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
+  SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
   pinMode(SS_PIN, OUTPUT);
   digitalWrite(SS_PIN, HIGH);
   
@@ -73,7 +108,7 @@ void setup() {
   delay(100);
 
   // Check RFID
-  byte version = rfid.PCD_ReadRegister(MFRC522:: VersionReg);
+  byte version = rfid.PCD_ReadRegister(MFRC522::VersionReg);
   if (version == 0x00 || version == 0xFF) {
     Serial.println("[WARNING] RFID not detected - check wiring");
   } else {
@@ -83,8 +118,8 @@ void setup() {
 
   // Initialize Servo
   gate.attach(GATE_SERVO);
-  gate.write(0);
-  Serial.println("[OK] Gate servo (CLOSED)");
+  setGate(90);   // 90 = CLOSED
+  Serial.println("[OK] Gate servo (CLOSED @ 90)");
 
   // Connect WiFi
   connectWiFi();
@@ -96,6 +131,9 @@ void setup() {
   // BOOT:  Read and send spot status
   Serial.println("[BOOT] Reading spot status...");
   readAndSendSpotStatus();
+
+  Serial.print("[BOOT] Free spots: ");
+  Serial.println(getFreeSpots());
 
   Serial.println("\n========================================");
   Serial.println("   SYSTEM READY");
@@ -109,6 +147,18 @@ void loop() {
   // Check for RFID card (no need for IR sensor trigger)
   checkRFID();
 
+  // Exit logic using IR only
+  if (gateIsClosed() && isCarPresent()) {
+    Serial.println("[EXIT] Car detected at closed gate -> opening");
+    setGate(270);                       // open
+
+    Serial.println("[EXIT] Waiting for car to pass...");
+    waitForCarToPass();                 // wait until IR is clear
+
+    Serial.println("[EXIT] Car passed -> closing");
+    setGate(90);                        // close
+  }
+
   // Check spots for changes
   checkSpots();
 
@@ -118,7 +168,7 @@ void loop() {
 // ==================== WiFi ====================
 void connectWiFi() {
   Serial.print("[WIFI] Connecting");
-  WiFi. begin(ssid, password);
+  WiFi.begin(ssid, password);
 
   int attempts = 0;
   while (WiFi.status() != WL_CONNECTED && attempts < 30) {
@@ -128,10 +178,10 @@ void connectWiFi() {
     attempts++;
   }
 
-  if (WiFi. status() == WL_CONNECTED) {
+  if (WiFi.status() == WL_CONNECTED) {
     Serial.println(" OK!");
     Serial.print("[WIFI] IP:  ");
-    Serial.println(WiFi. localIP());
+    Serial.println(WiFi.localIP());
   } else {
     Serial.println(" FAILED!");
   }
@@ -157,13 +207,13 @@ void fetchValidRFIDs() {
     DynamicJsonDocument doc(4096);
     DeserializationError error = deserializeJson(doc, payload);
 
-    if (! error && doc["ok"] == true) {
+    if (!error && doc["ok"] == true) {
       JsonArray rfids = doc["rfids"];
       rfidCount = 0;
 
-      for (JsonObject item :  rfids) {
+      for (JsonObject item : rfids) {
         if (rfidCount < 100) {
-          validNIDs[rfidCount] = item["NID"]. as<String>();
+          validNIDs[rfidCount]  = item["NID"].as<String>();
           validRFIDs[rfidCount] = item["RFID"].as<String>();
           rfidCount++;
         }
@@ -189,21 +239,21 @@ void fetchValidRFIDs() {
 }
 
 void checkRFID() {
-  if (! rfid. PICC_IsNewCardPresent()) {
+  if (!rfid.PICC_IsNewCardPresent()) {
     return;
   }
 
-  if (! rfid.PICC_ReadCardSerial()) {
+  if (!rfid.PICC_ReadCardSerial()) {
     return;
   }
 
   // Get card UID
   String cardUID = "";
-  for (byte i = 0; i < rfid. uid.size; i++) {
+  for (byte i = 0; i < rfid.uid.size; i++) {
     if (rfid.uid.uidByte[i] < 0x10) cardUID += "0";
-    cardUID += String(rfid. uid.uidByte[i], HEX);
+    cardUID += String(rfid.uid.uidByte[i], HEX);
   }
-  cardUID. toUpperCase();
+  cardUID.toUpperCase();
 
   Serial.println("\n----------------------------------------");
   Serial.print("[RFID] Card:  ");
@@ -212,14 +262,32 @@ void checkRFID() {
   // Validate card
   String nid = "";
   for (int i = 0; i < rfidCount; i++) {
-    if (validRFIDs[i]. equalsIgnoreCase(cardUID)) {
+    if (validRFIDs[i].equalsIgnoreCase(cardUID)) {
       nid = validNIDs[i];
       break;
     }
   }
 
   if (nid != "") {
-    // ALLOWED
+    // ALLOWED (by card) – now check capacity
+    int freeSpots = getFreeSpots();
+    Serial.print("[PARKING] Free spots: ");
+    Serial.println(freeSpots);
+
+    if (freeSpots <= 0) {
+      Serial.println("[PARKING] FULL -> ACCESS BLOCKED");
+
+      digitalWrite(LED_GREEN, LOW);
+      digitalWrite(LED_RED, HIGH);
+      delay(2000);
+      digitalWrite(LED_RED, LOW);
+
+      Serial.println("----------------------------------------\n");
+      rfid.PICC_HaltA();
+      rfid.PCD_StopCrypto1();
+      return; // Do NOT open gate
+    }
+
     Serial.println("[ACCESS] *** ALLOWED ***");
     Serial.print("[ACCESS] NID: ");
     Serial.println(nid);
@@ -227,19 +295,28 @@ void checkRFID() {
     digitalWrite(LED_GREEN, HIGH);
     digitalWrite(LED_RED, LOW);
 
-    // Open gate
-    Serial.println("[GATE] Opening.. .");
-    gate.write(90);
+    // ENTRY SERVO + IR LOGIC
+    Serial.println("[GATE] Opening (ENTRY)...");
+    setGate(270);
 
     // Log entry to server
     sendEntryLog(nid);
 
-    // Wait for car to pass
-    delay(5000);
+    // Wait for car to arrive at IR (optional safety)
+    Serial.println("[GATE] Waiting for car to reach IR...");
+    unsigned long t0 = millis();
+    while (!isCarPresent() && (millis() - t0 < 15000)) {  // max 15 s to arrive
+      yield();
+      delay(50);
+    }
 
-    // Close gate
-    Serial.println("[GATE] Closing...");
-    gate.write(0);
+    // Now wait for it to pass and clear IR
+    Serial.println("[GATE] Waiting for car to pass...");
+    waitForCarToPass();
+
+    // Close gate (90 = CLOSED)
+    Serial.println("[GATE] Closing (ENTRY)...");
+    setGate(90);
 
     digitalWrite(LED_GREEN, LOW);
 
@@ -275,7 +352,7 @@ void sendEntryLog(String nid) {
   int httpCode = http.POST(postData);
 
   if (httpCode == 200) {
-    Serial. println("[LOG] Entry saved to server");
+    Serial.println("[LOG] Entry saved to server");
   } else {
     Serial.print("[ERROR] Log failed: ");
     Serial.println(httpCode);
@@ -313,6 +390,10 @@ void readAndSendSpotStatus() {
     Serial.print(i + 1);
     Serial.println(spotStatus[i] ?  ":  EMPTY" : ":  OCCUPIED");
   }
+
+  Serial.print("[BOOT] Free spots: ");
+  Serial.println(getFreeSpots());
+
   sendSpotUpdate();
 }
 
@@ -328,7 +409,7 @@ void sendSpotUpdate() {
 
   String postData = "key=" + String(apiKey);
   for (int i = 0; i < TOTAL_SPOTS; i++) {
-    postData += "&spot" + String(i + 1) + "=" + String(spotStatus[i] ? 1 :  0);
+    postData += "&spot" + String(i + 1) + "=" + String(spotStatus[i] ? 1 : 0);
   }
 
   Serial.print("[SPOTS] Sending:  ");
