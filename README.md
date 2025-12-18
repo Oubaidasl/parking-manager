@@ -21,6 +21,7 @@ parking-manager/
 ├── src/
 │   ├── website/        # Web application files (HTML, JS, PHP)
 │   ├── esp_code/       # ESP microcontroller code
+│   ├── database/       # Database files (parking.sql)
 ```
 
 ## ✨ Features
@@ -51,14 +52,30 @@ parking-manager/
    - Copy the contents of `src/website/` to your web server's root directory
    - Configure your PHP settings as needed
 
-3. **Configure ESP devices**
+3. **Set up the database**
+   - Import the `parking.sql` file located under `src/database/parking.sql` into your database server.
+     ```bash
+     mysql -u [your_user] -p [your_password] [database_name] < src/database/parking.sql
+     ```
+
+4. **Configure ESP devices**
    - Open the ESP code in Arduino IDE
    - Update WiFi credentials and server endpoints
    - Upload to your ESP device
 
+## 🔧 Used Hardware
+
+Below is the list of hardware components used in the project:
+
+- **ESP Microcontroller (ESP8266/ESP32)**
+- **IR Sensors**: Vehicle detection at the entrance and parking spots
+- **RFID Module (MFRC522)**: For card-based access control
+- **Servo Motor**: Gate control for vehicles
+- **LEDs**: Green and Red for signaling
+
 ## 📄 License
 
-This project is open source.  Please check the repository for license details.
+This project is open source. Please check the repository for license details.
 
 ## 👥 Contributing
 
